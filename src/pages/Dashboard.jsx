@@ -1,7 +1,7 @@
 import { useState } from "react";
 import LeadCommunicationHistory from "../Components/LeadHistory";
-import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { mockLeads } from "../constasnt";
+import { Box, FormControl, Grid, InputLabel, MenuItem, Select } from "@mui/material";
+import { mockLeads } from "../constant";
 
 const LeadSelector = () => {
   const [selectedId, setSelectedId] = useState('');
@@ -15,12 +15,18 @@ const LeadSelector = () => {
     if (lead) {
       setSelectedLead(lead);
       setResetExpand((prev) => !prev); 
+      window.scrollTo({
+        top: 0,
+        left: 100,
+        behavior: "smooth",
+      });
     } 
   };
 
   return (
     <>
-    <Box p={3} sx={{ width: "200px" }}>
+    <Grid container spacing={2} position={'relative'}>
+    <Grid sx={3} minWidth={"250px"} position={'fixed'} top={'15%'}>
       <FormControl fullWidth>
         <InputLabel>Select Customer</InputLabel>
         <Select value={selectedId} onChange={handleChange} label="Select Customer">
@@ -32,8 +38,10 @@ const LeadSelector = () => {
         </Select>
       </FormControl>
 
-    </Box>
-          {selectedLead && <LeadCommunicationHistory selectedLead={selectedLead} resetExpand={resetExpand} />}
+    </Grid>
+          <Grid pl={40}>{selectedLead && <LeadCommunicationHistory selectedLead={selectedLead} resetExpand={resetExpand} />}
+          </Grid>
+          </Grid>
 </>
   );
 };

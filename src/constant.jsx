@@ -18,8 +18,12 @@ export const mockLeads = [
     dealer: {
       id: 'dealer-001',
       name: 'Altoona Honda',
+      interestedIn: '2023 Honda Civic',
+      dealConfirmedIn: '2024 Honda civic'
     },
     dealStatus: 'Sold',
+    lostToPickedDate: '2025-02-01T09:30:00Z',
+    pickedToSoldDate: '2025-03-18T17:20:00Z',
     communicationHistory: generateMockData(10),
   },
   {
@@ -32,8 +36,12 @@ export const mockLeads = [
     dealer: {
       id: 'dealer-002',
       name: 'Chapman Honda',
+      interestedIn: '2023 Honda Civic',
+      dealConfirmedIn: ''
     },
     dealStatus: 'In Progress',
+    lostToPickedDate: '2025-03-03T11:45:00Z',
+    pickedToSoldDate: '',
     communicationHistory: generateMockData(15),
   },
   {
@@ -46,6 +54,8 @@ export const mockLeads = [
     dealer: {
       id: 'dealer-003',
       name: 'Precision Toyota',
+      interestedIn: '2023 Honda Civic',
+      dealConfirmedIn: '2024 Honda civic'
     },
     dealStatus: 'Sold',
     communicationHistory: generateMockData(7),

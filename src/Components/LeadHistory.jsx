@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   Chip,
-  Divider,
   Step,
   StepLabel,
   Stepper,
@@ -12,80 +11,16 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
+  Grid,
+  Stack,
+  Avatar,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import PersonIcon from '@mui/icons-material/Person';
 import OfferCard from './OfferCard';
-
-const generateMockData = (count) => {
-  return Array.from({ length: count }, (_, i) => ({
-    id: `comm-${i + 1}`,
-    type: i % 2 === 0 ? 'email' : 'call',
-    timestamp: `2025-01-${(i % 30 + 1).toString().padStart(2, '0')}T10:00:00Z`,
-    content: `This is a sample ${i % 2 === 0 ? 'email' : 'call'} communication #${i + 1}.`,
-  }));
-};
-
-const mockLeads = [
-  {
-    customer: {
-      id: 'cust-001',
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      phone: '555-1234',
-    },
-    dealer: {
-      id: 'dealer-001',
-      name: 'Altoona Honda',
-    },
-    dealStatus: 'Sold',
-    communicationHistory: generateMockData(100),
-  },
-  {
-    customer: {
-      id: 'cust-002',
-      name: 'Jane Smith',
-      email: 'jane.smith@example.com',
-      phone: '555-5678',
-    },
-    dealer: {
-      id: 'dealer-002',
-      name: 'Chapman Honda',
-    },
-    dealStatus: 'In Progress',
-    communicationHistory: generateMockData(40),
-  },
-  {
-    customer: {
-      id: 'cust-003',
-      name: 'Mark Johnson',
-      email: 'mark.j@example.com',
-      phone: '555-8765',
-    },
-    dealer: {
-      id: 'dealer-003',
-      name: 'Precision Toyota',
-    },
-    dealStatus: 'Sold',
-    communicationHistory: generateMockData(60),
-  },
-];
+import '../App.css';
 
 const formatDate = (iso) => new Date(iso).toLocaleString();
-
-const EmailContent = ({ content }) => (
-  <Box>
-    <Typography variant="subtitle2" gutterBottom>
-      Email Discussion
-    </Typography>
-    <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
-      {content}
-    </Typography>
-  </Box>
-);
 
 const LeadCommunicationHistory = ({ selectedLead, resetExpand }) => {
   const ITEMS_PER_BATCH = 5;
@@ -123,19 +58,74 @@ const LeadCommunicationHistory = ({ selectedLead, resetExpand }) => {
   const lead = selectedLead;
 
   return (
-    <Box p={3}>
+    <Grid p={3} sx={8} justifyContent={'flex-end'}>
+      <Card variant="outlined" sx={{ mb: 2 }}>
+        <CardContent>
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Avatar>
+              <PersonIcon />
+            </Avatar>
+            <Box>
+              <Typography variant="h6">{lead.customer.name}</Typography>
+              <Typography variant="body2" color="text.secondary">
+                {lead.customer.email} | {lead.customer.phone}
+              </Typography>
+              <Typography variant="body2">
+                Dealer: <strong>{lead.dealer.name}</strong>
+              </Typography>
+              <Chip label={lead.dealStatus} color={lead.dealStatus === 'Sold' ? 'success' : 'warning'} size="small" sx={{ mt: 1 }} />
+            </Box>
+          </Stack>
+        </CardContent>
+      </Card>
+      <Grid container spacing={2} sx={{ mb: 2 }}>
+        {lead.lostToPickedDate && (
+          <Grid item xs={12} md={6}>
+            <Card variant="outlined">
+              <CardContent>
+                <Box display={'flex'} alignItems={'center'}>
+                <Typography variant='h6'>Original</Typography>
+                <div className='circle yellow'></div>
+                </Box>
+                <Typography variant="subtitle2">Lost Lead Picked Up</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {`Source: ${lead.dealer.name}`}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {`Intersted in ${lead.dealer.interestedIn}`}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {formatDate(lead.lostToPickedDate)}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        )}
+        {lead.pickedToSoldDate && (
+          <Grid item xs={12} md={6}>
+            <Card variant="outlined">
+              <CardContent>
+                <Box display={'flex'} alignItems={'center'}>
+                <Typography variant='h6'>Revival</Typography>
+                <div className='circle green'></div>
+                </Box>
+                <Typography variant="subtitle2">Picked Lead Turned Sold</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {`Source: ${lead.dealer.name}`}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {`Intersted in : ${lead.dealer.dealConfirmedIn}`}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {formatDate(lead.pickedToSoldDate)}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        )}
+      </Grid>
       <Card variant="outlined" sx={{ mb: 4 }}>
         <CardContent>
-          <Typography variant="h6">{lead.customer.name}</Typography>
-          <Typography color="text.secondary">
-            {lead.customer.email} | {lead.customer.phone}
-          </Typography>
-          <Typography sx={{ mt: 1 }}>
-            Dealer: <strong>{lead.dealer.name}</strong>
-          </Typography>
-          <Chip label={lead.dealStatus} color={lead.dealStatus === 'Sold' ? 'success' : 'warning'} sx={{ mt: 1 }} />
-
-          <Divider sx={{ my: 2 }} />
           <Typography variant="subtitle1" gutterBottom>
             Communication Timeline
           </Typography>
@@ -182,7 +172,7 @@ const LeadCommunicationHistory = ({ selectedLead, resetExpand }) => {
           <div ref={observerRef} />
         </CardContent>
       </Card>
-    </Box>
+    </Grid>
   );
 };
 

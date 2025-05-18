@@ -1,8 +1,5 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
   padding: 2rem;
-  text-align: center;
 }
 
 .logo {
@@ -39,4 +36,22 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.circle {
+  width: 10px;
+  height: 10px;
+  line-height: 10px;
+  border-radius: 50%; /* the magic */
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  margin: 10px;
+}
+
+.green {
+  background-color: #166313;
+}
+
+.yellow {
+  background-color: #ffb516;
 }
